@@ -14,66 +14,9 @@ const connectMetamask = async () => {
 
 //   Connect to smart contract
 const connectContract = async () => {
-  // const ABI = [
-  //   {
-  //     inputs: [
-  //       {
-  //         internalType: "uint256",
-  //         name: "amount",
-  //         type: "uint256",
-  //       },
-  //     ],
-  //     name: "changeFlower",
-  //     outputs: [],
-  //     stateMutability: "nonpayable",
-  //     type: "function",
-  //   },
-  //   {
-  //     inputs: [],
-  //     name: "getFlower",
-  //     outputs: [
-  //       {
-  //         internalType: "uint256",
-  //         name: "",
-  //         type: "uint256",
-  //       },
-  //     ],
-  //     stateMutability: "view",
-  //     type: "function",
-  //   },
-  // ];
+  const ABI = ["PASTE YOUR ABI"];
 
-  const ABI = [
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
-        },
-      ],
-      name: "CheckAmount",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getAmount",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
-
-  // const Address = "0xd6a50F5E924a39e1F2b63C921Dbbc7836d68c9eA";
-  const Address = "0x4D1493A448CCF4f75Db7C9db4EC30905c3Ed05f7";
+  const Address = "ENTER_YOUR_DEPLOYED_SMART_CONTRACT_ADDRESS";
   window.web3 = await new Web3(window.ethereum);
   window.contract = await new window.web3.eth.Contract(ABI, Address);
   document.getElementById(
