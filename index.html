@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Toll Collection</title>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
+    <style>
+      body {
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
+        background-color: rgb(234, 234, 234);
+        text-align: center;
+      }
+      button,
+      p {
+        font-family: "Times New Roman", Times, serif;
+      }
+      .btn {
+        font-size: 20px;
+      }
+      p {
+        font-size: 23px;
+      }
+      button:hover {
+        background-color: rgb(0, 174, 255);
+      }
+      input {
+        width: 180px;
+        height: 50px;
+        font-size: medium;
+        text-align: center;
+      }
+      .navbar-brand {
+        padding-left: 40%;
+        font-size: 40px;
+        font-family: "Brush Script MT", cursive;
+      }
+      .row {
+        padding-left: 8%;
+      }
+      .card {
+        margin: 40px 15px 30px 20px;
+      }
+      /* .last {
+        margin: 50px -120px 0 50%;
+      } */
+      .active {
+        font-size: 24px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <strong>Holy guacamole!</strong> You should check in on some of those
+      fields below.
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div> -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Toll Transaction</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+    <br /><br />
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <p id="accountArea">MetaMask account is not connected</p>
+            <button onclick="connectMetamask()" class="btn btn-warning btn-lg">
+              CONNECT TO METAMASK
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="card">
+          <div class="card-body">
+            <p id="contractArea">Smart Contract address is not verified</p>
+            <button onclick="connectContract()" class="btn btn-primary btn-lg">
+              CONNECT TO SMART CONTRACT
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="card last">
+          <div class="card-body">
+            <p id="dataArea">Smart Contract is not connected</p>
+            <button onclick="readContract()" class="btn btn-success btn-lg">
+              GET DATA FROM CONTRACT
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="card">
+          <div class="card-body">
+            <p>The total collected amount is</p>
+            <!-- <input type="text" id="inputArea" /> <br /><br /> -->
+            <button
+              type="button"
+              class="list-group-item list-group-item-action active"
+              aria-current="true"
+            >
+              Rs. 10000
+            </button>
+            <p id="writtenData"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var res = "https://travelling-app-48ca9-default-rtdb.firebaseio.com/";
+
+      // Connect Metamask
+      let acc;
+      const connectMetamask = async () => {
+        if (window.ethereum !== "undefined") {
+          const accs = await ethereum.request({
+            method: "eth_requestAccounts",
+          });
+          acc = accs[0];
+          document.getElementById(
+            "accountArea"
+          ).innerHTML = `MetaMask account Address is ${acc}`;
+        }
+      };
+
+      //   Connect to smart contract
+      const connectContract = async () => {
+        const ABI = [
+          {
+            inputs: [],
+            name: "getAmount",
+            outputs: [
+              {
+                internalType: "string",
+                name: "",
+                type: "string",
+              },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+        ];
+
+        const Address = "0x74c1208B2b9281a25924E96B1EbdC847517a7346";
+        window.web3 = await new Web3(window.ethereum);
+        window.contract = await new window.web3.eth.Contract(ABI, Address);
+        document.getElementById(
+          "contractArea"
+        ).innerHTML = `Successfully connected to smart contract address: ${Address}`;
+      };
+
+      // Read the data from contract
+      const readContract = async () => {
+        const data = await window.contract.methods.getAmount().call();
+        document.getElementById("dataArea").innerHTML = data;
+      };
+
+      // Write the data to contract
+      const writeContract = async () => {
+        const EnteredAmnt = document.getElementById("inputArea").value;
+        await window.contract.methods
+          .CheckAmount(EnteredAmnt)
+          .send({ from: acc });
+      };
+    </script>
+  </body>
+</html>

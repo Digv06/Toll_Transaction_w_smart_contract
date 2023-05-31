@@ -1,0 +1,33 @@
+body {
+    background-color: rgb(234, 234, 234);
+    text-align: center;
+    display: block;
+}
+button,
+p {
+    font-size: 33px;
+    font-family: "Times New Roman", Times, serif;
+}
+button {
+    font-size: 500px;
+}
+button:hover {
+    background-color: yellow;   
+}
+input {
+    width: 180px;
+    height: 50px;
+    font-size: medium;
+    text-align: center;
+}
+.navbar-brand {
+    padding-left: 40%;
+    font-size: 50px;
+    font-family: "Brush Script MT", cursive;
+}
+.row {
+    padding-left: 8%;
+}
+.card {
+    margin: 20px 12px 30px 20px;
+}
