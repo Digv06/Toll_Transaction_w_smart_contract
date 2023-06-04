@@ -1,4 +1,4 @@
-// Connect Metamask
+// Connect Metamask with the address 
 let acc;
 const connectMetamask = async () => {
   if (window.ethereum !== "undefined") {
