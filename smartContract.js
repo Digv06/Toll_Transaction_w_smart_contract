@@ -21,7 +21,7 @@ const connectContract = async () => {
   window.contract = await new window.web3.eth.Contract(ABI, Address);
   document.getElementById(
     "contractArea"
-  ).innerHTML = `Successfully connected to smart contract address : ${Address}`;
+  ).innerHTML = `Connection successful and address: ${Address}`;
 };
 
 // Read the data from smart contract
